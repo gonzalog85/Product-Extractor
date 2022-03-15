@@ -6,7 +6,6 @@ using Product_Extractor.Models;
 using Product_Extractor.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -45,7 +44,6 @@ namespace Product_Extractor
 
                     List<Producto> productosApi = await api.GetProductsApiAsync();
                     List<Producto> productosCache = cache.GetAllProductsUsingRedisCache().Result;
-                    _logger.LogWarning($"Cache Count: {productosCache.Count} - Productos Api: {productosApi.Count}");
 
                     if (productosCache.Count == 0)
                     {

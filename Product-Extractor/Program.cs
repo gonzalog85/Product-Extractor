@@ -1,12 +1,8 @@
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Product_Extractor.Cache;
-using Product_Extractor.Models;
 using Product_Extractor.Services;
-using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;

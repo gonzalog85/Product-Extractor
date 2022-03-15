@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Product_Extractor.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,7 +21,7 @@ namespace Product_Extractor.Services
 
         public async Task SaveProductAsync(Producto producto)
         {
-            using (var context = new ProductosApiContext(_config.GetConnectionString("DefaultConnection")))
+            using (var context = new ProductosDbContext(_config.GetConnectionString("DefaultConnection")))
             {
                 context.Add(producto);
                 await context.SaveChangesAsync();
@@ -32,7 +31,7 @@ namespace Product_Extractor.Services
 
         public async Task UpdateProductAsync(Producto producto)
         {
-            using (var context = new ProductosApiContext(_config.GetConnectionString("DefaultConnection")))
+            using (var context = new ProductosDbContext(_config.GetConnectionString("DefaultConnection")))
             {
                 var prodDb = context.Productos.FirstOrDefault(x => x.Code.Trim().Equals(producto.Code.Trim()) && x.Sku.Trim().Equals(producto.Sku.Trim()));
                 await context.SaveChangesAsync();
@@ -43,7 +42,7 @@ namespace Product_Extractor.Services
         public async Task<List<Producto>> GetListAsync()
         {
             List<Producto> productos = new List<Producto>();
-            using (var context = new ProductosApiContext(_config.GetConnectionString("DefaultConnection")))
+            using (var context = new ProductosDbContext(_config.GetConnectionString("DefaultConnection")))
             {
                 var productosDb = await context.Productos.ToListAsync();
 

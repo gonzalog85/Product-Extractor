@@ -1,21 +1,19 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 
 #nullable disable
 
 namespace Product_Extractor.Models
 {
-    public partial class ProductosApiContext : DbContext
+    public partial class ProductosDbContext : DbContext
     {
         private readonly string connectionString;
 
-        public ProductosApiContext(string connectionString)
+        public ProductosDbContext(string connectionString)
         {
             this.connectionString = connectionString;
         }
 
-        public ProductosApiContext(DbContextOptions<ProductosApiContext> options)
+        public ProductosDbContext(DbContextOptions<ProductosDbContext> options)
             : base(options)
         {
         }
