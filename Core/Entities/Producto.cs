@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace Product_Extractor.Models
+namespace Core.Entities
 {
     public partial class Producto
     {

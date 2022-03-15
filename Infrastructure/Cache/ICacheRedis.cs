@@ -1,8 +1,8 @@
-﻿using Product_Extractor.Models;
+﻿using Core.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Product_Extractor.Cache
+namespace Infrastructure.Cache
 {
     public interface ICacheRedis
     {

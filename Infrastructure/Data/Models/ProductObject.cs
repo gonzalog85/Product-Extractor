@@ -1,5 +1,5 @@
 ﻿
-namespace Product_Extractor.Models
+namespace Infrastructure.Data.Models
 {
     public class ProductObject
     {

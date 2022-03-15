@@ -1,8 +1,9 @@
+using Core.Interfaces;
+using Infrastructure.Cache;
+using Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Product_Extractor.Cache;
-using Product_Extractor.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;

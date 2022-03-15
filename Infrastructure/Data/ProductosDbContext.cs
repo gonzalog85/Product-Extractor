@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Core.Entities;
+using Microsoft.EntityFrameworkCore;
 
 #nullable disable
 
-namespace Product_Extractor.Models
+namespace Infrastructure.Data
 {
     public partial class ProductosDbContext : DbContext
     {

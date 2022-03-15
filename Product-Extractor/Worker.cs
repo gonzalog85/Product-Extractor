@@ -1,9 +1,9 @@
+using Core.Entities;
+using Core.Exceptions;
+using Core.Interfaces;
+using Infrastructure.Cache;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Product_Extractor.Cache;
-using Product_Extractor.Exceptions;
-using Product_Extractor.Models;
-using Product_Extractor.Services;
 using System;
 using System.Collections.Generic;
 using System.Threading;

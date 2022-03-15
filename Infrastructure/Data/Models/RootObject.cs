@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Product_Extractor.Models
+namespace Infrastructure.Data.Models
 {
     public class RootObject
     {

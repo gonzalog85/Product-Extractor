@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Product_Extractor.Exceptions
+namespace Core.Exceptions
 {
     public class BadResponseApiException : Exception
     {

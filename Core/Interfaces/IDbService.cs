@@ -1,8 +1,8 @@
-﻿using Product_Extractor.Models;
+﻿using Core.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Product_Extractor.Services
+namespace Core.Interfaces
 {
     public interface IDbService
     {

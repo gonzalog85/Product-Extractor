@@ -1,15 +1,15 @@
-﻿using Microsoft.Extensions.Caching.Distributed;
+﻿using Core.Entities;
+using Core.Interfaces;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
-using Product_Extractor.Models;
-using Product_Extractor.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Product_Extractor.Cache
+namespace Infrastructure.Cache
 {
     public class CacheRedis : ICacheRedis
     {

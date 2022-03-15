@@ -1,15 +1,17 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Core.Entities;
+using Core.Exceptions;
+using Core.Interfaces;
+using Infrastructure.Data.Models;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Product_Extractor.Exceptions;
-using Product_Extractor.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Product_Extractor.Services
+namespace Infrastructure.Services
 {
     public class ApiProductExtractorService : IApiProductExtractorService
     {
