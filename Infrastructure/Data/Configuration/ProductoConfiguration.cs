@@ -9,11 +9,24 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Data.Configuration
 {
-    public class ProductoConfiguration : IEntityTypeConfiguration<Producto>
+    public class ProductoConfiguration : IEntityTypeConfiguration<Products>
     {
-        public void Configure(EntityTypeBuilder<Producto> builder)
+        public void Configure(EntityTypeBuilder<Products> builder)
         {
-            throw new NotImplementedException();
+            builder.Property(p => p.Code)
+                .IsRequired().HasMaxLength(50);
+            builder.Property(p => p.Sku)
+                .IsRequired().HasMaxLength(50);
+            builder.Property(p => p.Currency)
+                .IsRequired().HasMaxLength(10);
+            builder.Property(p => p.Stock)
+                .HasColumnType("decimal(18,2)");
+            builder.Property(p => p.Price)
+                .HasColumnType("decimal(18,2)");
+            builder.Property(p => p.Iva)
+                .HasColumnType("decimal(18,2)");
+            builder.Property(p => p.Ii)
+                .HasColumnType("decimal(18,2)");
         }
     }
 }

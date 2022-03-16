@@ -22,16 +22,16 @@ namespace Infrastructure.Cache
             this.distributedCache = distributedCache;
         }
 
-        public async Task<List<Producto>> GetAllProductsUsingRedisCache()
+        public async Task<List<Products>> GetAllProductsUsingRedisCache()
         {
             var cacheKey = "productList";
             string serializedProductList;
-            var productList = new List<Producto>();
+            var productList = new List<Products>();
             var redisProductList = await distributedCache.GetAsync(cacheKey);
             if (redisProductList != null)
             {
                 serializedProductList = Encoding.UTF8.GetString(redisProductList);
-                productList = JsonConvert.DeserializeObject<List<Producto>>(serializedProductList);
+                productList = JsonConvert.DeserializeObject<List<Products>>(serializedProductList);
             }
             else
             {
@@ -41,13 +41,14 @@ namespace Infrastructure.Cache
                 redisProductList = Encoding.UTF8.GetBytes(serializedProductList);
                 var options = new DistributedCacheEntryOptions()
                     .SetAbsoluteExpiration(DateTime.Now.AddMinutes(30))
-                    .SetSlidingExpiration(TimeSpan.FromMinutes(2));
+                    .SetSlidingExpiration(TimeSpan.FromMinutes(1));
+                
                 await distributedCache.SetAsync(cacheKey, redisProductList, options);
             }
             return productList;
         }
 
-        public async Task<Producto> GetProductoUsingCacheRedis(string code, string sku)
+        public async Task<Products> GetProductoUsingCacheRedis(string code, string sku)
         {
             var productList = await context.GetListAsync();
             return productList.Find(x => x.Code.Trim().Equals(code) && x.Sku.Trim().Equals(sku));

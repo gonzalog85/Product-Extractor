@@ -40,10 +40,10 @@ namespace Product_Extractor
                     _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
 
                     var time = (double)_settings.DelayMinutes;
-                    if (time < 3) throw new DelayOutOfRangeException();
+                    if (time < 2) throw new DelayOutOfRangeException();
 
-                    List<Producto> productosApi = await _api.GetProductsApiAsync();
-                    List<Producto> productosCache = await _cache.GetAllProductsUsingRedisCache();
+                    List<Products> productosApi = await _api.GetProductsApiAsync();
+                    List<Products> productosCache = await _cache.GetAllProductsUsingRedisCache();
 
                     if (productosCache.Count == 0)
                     {
@@ -64,7 +64,7 @@ namespace Product_Extractor
                             else
                             {
                                 await _db.SaveProductAsync(item);
-                                _logger.LogWarning($"PRODUCTO: {item.Sku.Trim()} NO REGISTRADO EN BASE DE DATOS - PRODUCTO GUARDADO");
+                                _logger.LogWarning($"PRODUCTO: {item.Sku.Trim()} NO REGISTRADO EN BASE DE DATOS");
                             }
                         }
                     }
@@ -81,13 +81,13 @@ namespace Product_Extractor
 
         public override async Task StartAsync(CancellationToken cancellationToken)
         {
-            _logger.LogWarning("Worker start");
+            _logger.LogInformation("Worker start");
             await base.StartAsync(cancellationToken);
         }
 
         public override async Task StopAsync(CancellationToken cancellationToken)
         {
-            _logger.LogWarning("Worker stop");
+            _logger.LogInformation("Worker stop");
             await base.StopAsync(cancellationToken);
         }
     }
