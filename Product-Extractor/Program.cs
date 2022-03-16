@@ -1,6 +1,8 @@
 using Core.Interfaces;
 using Infrastructure.Cache;
+using Infrastructure.Data;
 using Infrastructure.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,13 +30,18 @@ namespace Product_Extractor
                     hostContext.Configuration.Bind(nameof(WorkerSettings), workerSettings);
                     services.AddSingleton(workerSettings);
 
+                    services.AddDbContext<WorkerDbContext>(options =>
+                    {
+                        options.UseSqlServer(hostContext.Configuration["ConnectionStrings:DefaultConnection"]);
+                    });
+
                     services.AddStackExchangeRedisCache(options =>
                     {
                         options.Configuration = hostContext.Configuration["ConnectionStrings:Redis"];
                     });
 
-                    services.AddTransient<IDbService, DbService>();
-                    services.AddTransient<IApiProductExtractorService, ApiProductExtractorService>();
+                    services.AddSingleton<IProductoRepository, ProductoRepository>();
+                    services.AddSingleton<IApiProductExtractorService, ApiProductExtractorService>();
                     services.AddSingleton<ICacheRedis, CacheRedis>();
                 });
     }

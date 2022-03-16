@@ -14,21 +14,21 @@ namespace Product_Extractor
     public class Worker : BackgroundService
     {
         private readonly ILogger<Worker> _logger;
-        private readonly IDbService _db;
+        private readonly IProductoRepository _db;
         private readonly WorkerSettings _settings;
-        private readonly ICacheRedis cache;
-        private readonly IApiProductExtractorService api;
+        private readonly ICacheRedis _cache;
+        private readonly IApiProductExtractorService _api;
 
         public Worker(ILogger<Worker> logger,
-            IDbService db,
+            IProductoRepository db,
             WorkerSettings settings,
             ICacheRedis cache, IApiProductExtractorService api)
         {
             _logger = logger;
             _db = db;
             _settings = settings;
-            this.cache = cache;
-            this.api = api;
+            _cache = cache;
+            _api = api;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -42,8 +42,8 @@ namespace Product_Extractor
                     var time = (double)_settings.DelayMinutes;
                     if (time < 3) throw new DelayOutOfRangeException();
 
-                    List<Producto> productosApi = await api.GetProductsApiAsync();
-                    List<Producto> productosCache = cache.GetAllProductsUsingRedisCache().Result;
+                    List<Producto> productosApi = await _api.GetProductsApiAsync();
+                    List<Producto> productosCache = await _cache.GetAllProductsUsingRedisCache();
 
                     if (productosCache.Count == 0)
                     {

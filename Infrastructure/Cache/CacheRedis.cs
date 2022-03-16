@@ -13,10 +13,10 @@ namespace Infrastructure.Cache
 {
     public class CacheRedis : ICacheRedis
     {
-        private readonly IDbService context;
+        private readonly IProductoRepository context;
         private readonly IDistributedCache distributedCache;
 
-        public CacheRedis(IDbService context, IDistributedCache distributedCache)
+        public CacheRedis(IProductoRepository context, IDistributedCache distributedCache)
         {
             this.context = context;
             this.distributedCache = distributedCache;

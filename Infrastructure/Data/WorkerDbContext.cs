@@ -5,16 +5,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data
 {
-    public partial class ProductosDbContext : DbContext
+    public partial class WorkerDbContext : DbContext
     {
         private readonly string connectionString;
 
-        public ProductosDbContext(string connectionString)
+        public WorkerDbContext(string connectionString)
         {
             this.connectionString = connectionString;
         }
 
-        public ProductosDbContext(DbContextOptions<ProductosDbContext> options)
+        public WorkerDbContext(DbContextOptions<WorkerDbContext> options)
             : base(options)
         {
         }
