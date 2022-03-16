@@ -14,21 +14,21 @@ namespace Product_Extractor
     public class Worker : BackgroundService
     {
         private readonly ILogger<Worker> _logger;
-        private readonly IDbService _db;
+        private readonly IProductoRepository _db;
         private readonly WorkerSettings _settings;
-        private readonly ICacheRedis cache;
-        private readonly IApiProductExtractorService api;
+        private readonly ICacheRedis _cache;
+        private readonly IApiProductExtractorService _api;
 
         public Worker(ILogger<Worker> logger,
-            IDbService db,
+            IProductoRepository db,
             WorkerSettings settings,
             ICacheRedis cache, IApiProductExtractorService api)
         {
             _logger = logger;
             _db = db;
             _settings = settings;
-            this.cache = cache;
-            this.api = api;
+            _cache = cache;
+            _api = api;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -40,10 +40,10 @@ namespace Product_Extractor
                     _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
 
                     var time = (double)_settings.DelayMinutes;
-                    if (time < 3) throw new DelayOutOfRangeException();
+                    if (time < 2) throw new DelayOutOfRangeException();
 
-                    List<Producto> productosApi = await api.GetProductsApiAsync();
-                    List<Producto> productosCache = cache.GetAllProductsUsingRedisCache().Result;
+                    List<Products> productosApi = await _api.GetProductsApiAsync();
+                    List<Products> productosCache = await _cache.GetAllProductsUsingRedisCache();
 
                     if (productosCache.Count == 0)
                     {
@@ -64,7 +64,7 @@ namespace Product_Extractor
                             else
                             {
                                 await _db.SaveProductAsync(item);
-                                _logger.LogWarning($"PRODUCTO: {item.Sku.Trim()} NO REGISTRADO EN BASE DE DATOS - PRODUCTO GUARDADO");
+                                _logger.LogWarning($"PRODUCTO: {item.Sku.Trim()} NO REGISTRADO EN BASE DE DATOS");
                             }
                         }
                     }
@@ -81,13 +81,13 @@ namespace Product_Extractor
 
         public override async Task StartAsync(CancellationToken cancellationToken)
         {
-            _logger.LogWarning("Worker start");
+            _logger.LogInformation("Worker start");
             await base.StartAsync(cancellationToken);
         }
 
         public override async Task StopAsync(CancellationToken cancellationToken)
         {
-            _logger.LogWarning("Worker stop");
+            _logger.LogInformation("Worker stop");
             await base.StopAsync(cancellationToken);
         }
     }

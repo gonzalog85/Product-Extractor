@@ -24,9 +24,9 @@ namespace Infrastructure.Services
             _logger = logger;
         }
 
-        public async Task<List<Producto>> GetProductsApiAsync()
+        public async Task<List<Products>> GetProductsApiAsync()
         {
-            List<Producto> products = new List<Producto>();
+            List<Products> products = new List<Products>();
 
             try
             {
@@ -47,7 +47,7 @@ namespace Infrastructure.Services
 
                         foreach (var item in rootOb.Products)
                         {
-                            var producto = new Producto()
+                            var producto = new Products()
                             {
                                 Code = item.Code,
                                 Sku = item.Sku,
