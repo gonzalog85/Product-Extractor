@@ -42,29 +42,42 @@ namespace Product_Extractor
                     var time = (double)_settings.DelayMinutes;
                     if (time < 2) throw new DelayOutOfRangeException();
 
-                    List<Products> productosApi = await _api.GetProductsApiAsync();
-                    List<Products> productosCache = await _cache.GetAllProductsUsingRedisCache();
+                    List<Product> productosApi = await _api.GetProductsApiAsync();
+                    //List<Product> productosApi = new List<Product>(); // Lista vacia prueba
 
-                    if (productosCache.Count == 0)
+                    List<Product> productosCache = await _cache.GetAllProductsUsingRedisCache();
+                    //List<Products> productosCache = new List<Products>(); // Lista vacia prueba
+
+                    _logger.LogWarning($" Api Count: {productosApi.Count} - Cache Count: {productosCache.Count}");
+
+                    if (productosCache.Count > productosApi.Count)
                     {
-                        foreach (var item in productosApi)
+                        foreach (var prodCache in productosCache)
                         {
-                            await _db.SaveProductAsync(item);
+                            var prodApi = productosApi.Find(x => x.Code.Trim().Equals(prodCache.Code.Trim()) && x.Sku.Trim().Equals(prodCache.Sku.Trim()));
+                            if (prodApi != null)
+                            {
+                                await _db.UpdateProductAsync(prodApi);
+
+                            }
+                            else
+                            {
+                                await _db.DeleteAsync(prodCache);
+                            }
                         }
                     }
                     else
                     {
-                        foreach (var item in productosApi)
+                        foreach (var prodApi in productosApi)
                         {
-                            var prodDb = productosCache.Find(x => x.Code.Trim().Equals(item.Code.Trim()) && x.Sku.Trim().Equals(item.Sku.Trim()));
+                            var prodDb = productosCache.Find(x => x.Code.Trim().Equals(prodApi.Code.Trim()) && x.Sku.Trim().Equals(prodApi.Sku.Trim()));
                             if (prodDb != null)
                             {
-                                await _db.UpdateProductAsync(item);
+                                await _db.UpdateProductAsync(prodApi);
                             }
                             else
                             {
-                                await _db.SaveProductAsync(item);
-                                _logger.LogWarning($"PRODUCTO: {item.Sku.Trim()} NO REGISTRADO EN BASE DE DATOS");
+                                await _db.SaveProductAsync(prodApi);
                             }
                         }
                     }

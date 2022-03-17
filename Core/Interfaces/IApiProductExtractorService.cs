@@ -6,6 +6,6 @@ namespace Core.Interfaces
 {
     public interface IApiProductExtractorService
     {
-        Task<List<Products>> GetProductsApiAsync();
+        Task<List<Product>> GetProductsApiAsync();
     }
 }

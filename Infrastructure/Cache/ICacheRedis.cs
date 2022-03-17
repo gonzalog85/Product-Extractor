@@ -6,7 +6,7 @@ namespace Infrastructure.Cache
 {
     public interface ICacheRedis
     {
-        Task<List<Products>> GetAllProductsUsingRedisCache();
-        Task<Products> GetProductoUsingCacheRedis(string code, string sku);
+        Task<List<Product>> GetAllProductsUsingRedisCache();
+        Task<Product> GetProductoUsingCacheRedis(string code, string sku);
     }
 }

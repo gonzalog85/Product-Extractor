@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Data.Configuration
 {
-    public class ProductoConfiguration : IEntityTypeConfiguration<Products>
+    public class ProductoConfiguration : IEntityTypeConfiguration<Product>
     {
-        public void Configure(EntityTypeBuilder<Products> builder)
+        public void Configure(EntityTypeBuilder<Product> builder)
         {
             builder.Property(p => p.Code)
                 .IsRequired().HasMaxLength(50);

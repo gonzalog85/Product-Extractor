@@ -6,8 +6,9 @@ namespace Core.Interfaces
 {
     public interface IProductoRepository
     {
-        Task<List<Products>> GetListAsync();
-        Task SaveProductAsync(Products producto);
-        Task UpdateProductAsync(Products producto);
+        Task DeleteAsync(Product products);
+        Task<List<Product>> GetListAsync();
+        Task SaveProductAsync(Product products);
+        Task UpdateProductAsync(Product products);
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Core.Entities
 {
-    public class Products
+    public class Product
     {
         public int Id { get; set; }
         public string Code { get; set; }

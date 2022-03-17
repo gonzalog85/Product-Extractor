@@ -22,16 +22,16 @@ namespace Infrastructure.Cache
             this.distributedCache = distributedCache;
         }
 
-        public async Task<List<Products>> GetAllProductsUsingRedisCache()
+        public async Task<List<Product>> GetAllProductsUsingRedisCache()
         {
             var cacheKey = "productList";
             string serializedProductList;
-            var productList = new List<Products>();
+            var productList = new List<Product>();
             var redisProductList = await distributedCache.GetAsync(cacheKey);
             if (redisProductList != null)
             {
                 serializedProductList = Encoding.UTF8.GetString(redisProductList);
-                productList = JsonConvert.DeserializeObject<List<Products>>(serializedProductList);
+                productList = JsonConvert.DeserializeObject<List<Product>>(serializedProductList);
             }
             else
             {
@@ -48,7 +48,7 @@ namespace Infrastructure.Cache
             return productList;
         }
 
-        public async Task<Products> GetProductoUsingCacheRedis(string code, string sku)
+        public async Task<Product> GetProductoUsingCacheRedis(string code, string sku)
         {
             var productList = await context.GetListAsync();
             return productList.Find(x => x.Code.Trim().Equals(code) && x.Sku.Trim().Equals(sku));
