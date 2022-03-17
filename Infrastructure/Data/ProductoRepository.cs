@@ -26,33 +26,43 @@ namespace Infrastructure.Data
             return scope.ServiceProvider.GetService<WorkerDbContext>();
         }
 
-        public async Task SaveProductAsync(Products producto)
+        public async Task SaveProductAsync(Product product)
         {
             var context = GetDbContext();
-            context.Add(producto);
+            context.Add(product);
             await context.SaveChangesAsync();
-            _logger.LogInformation($"PRODUCTO: {producto.Sku} GUARDADO EN BASE DE DATOS");
+            _logger.LogInformation($"PRODUCTO: {product.Sku} GUARDADO EN BASE DE DATOS");
         }
 
-        public async Task UpdateProductAsync(Products producto)
+        public async Task UpdateProductAsync(Product product)
         {
             var context = GetDbContext();
-            var prodDb = context.Products.FirstOrDefault(x => x.Code.Trim().Equals(producto.Code.Trim()) && x.Sku.Trim().Equals(producto.Sku.Trim()));
+            var prodDb = context.Products.FirstOrDefault(x => x.Code.Trim().Equals(product.Code.Trim()) && x.Sku.Trim().Equals(product.Sku.Trim()));
+
+            prodDb.Code = product.Code;
+            prodDb.Sku = product.Sku;
+            prodDb.Stock = product.Stock;
+            prodDb.Currency = product.Currency;
+            prodDb.Price = product.Price;
+            prodDb.Iva = product.Iva;
+            prodDb.Ii = product.Ii;
+
             await context.SaveChangesAsync();
-            _logger.LogInformation($"PRODUCTO: {producto.Sku} ACTUALIZADO");
+            _logger.LogInformation($"PRODUCTO: {product.Sku} ACTUALIZADO");
         }
 
-        public async Task<List<Products>> GetListAsync()
+        public async Task<List<Product>> GetListAsync()
         {
             var context = GetDbContext();
-            List<Products> productos = new List<Products>();
-            var productosDb = await context.Products.ToListAsync();
+            return await context.Products.ToListAsync();
+        }
 
-            foreach (var item in productosDb)
-            {
-                productos.Add(item);
-            }
-            return productos;
+        public async Task DeleteAsync(Product product)
+        {
+            var context = GetDbContext();
+            context.Remove(product);
+            await context.SaveChangesAsync();
+            _logger.LogInformation($"PRODUCTO: {product.Sku} ELIMINADO");
         }
     }
 }
